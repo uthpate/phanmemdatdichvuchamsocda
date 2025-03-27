@@ -1,0 +1,59 @@
+const questions = [
+    {
+        question: "Bạn quan tâm đến lĩnh vực nào?",
+        options: [
+            { text: "Công nghệ", value: "tech" },
+            { text: "Sức khỏe", value: "health" },
+            { text: "Tài chính", value: "finance" }
+        ]
+    },
+    {
+        question: "Bạn muốn dịch vụ cá nhân hay doanh nghiệp?",
+        options: [
+            { text: "Cá nhân", value: "personal" },
+            { text: "Doanh nghiệp", value: "business" }
+        ]
+    },
+    {
+        question: "Bạn ưu tiên yếu tố nào nhất?",
+        options: [
+            { text: "Giá cả", value: "cost" },
+            { text: "Chất lượng", value: "quality" },
+            { text: "Tốc độ", value: "speed" }
+        ]
+    }
+];
+
+const services = [
+    { name: "Dịch vụ phát triển web", category: "tech", type: "business", priority: "quality" },
+    { name: "Gói tư vấn tài chính cá nhân", category: "finance", type: "personal", priority: "cost" },
+    { name: "Dịch vụ khám sức khỏe tổng quát", category: "health", type: "personal", priority: "quality" },
+    { name: "Dịch vụ chuyển tiền nhanh", category: "finance", type: "business", priority: "speed" }
+];
+
+function analyzeResults(answers) {
+    return services.filter(service =>
+        service.category === answers.category &&
+        service.type === answers.type &&
+        service.priority === answers.priority
+    );
+}
+
+function startQuiz() {
+    let answers = {};
+    questions.forEach(q => {
+        let answer = prompt(q.question + "\n" + q.options.map(o => o.text).join("\n"));
+        let chosenOption = q.options.find(o => o.text.toLowerCase() === answer.toLowerCase());
+        if (chosenOption) {
+            let key = Object.keys(answers).length === 0 ? "category" :
+                      Object.keys(answers).length === 1 ? "type" : "priority";
+            answers[key] = chosenOption.value;
+        }
+    });
+
+    let suggestedServices = analyzeResults(answers);
+    console.log("🔹 Dịch vụ phù hợp với bạn:");
+    suggestedServices.forEach(service => console.log(`✅ ${service.name}`));
+}
+
+startQuiz();
