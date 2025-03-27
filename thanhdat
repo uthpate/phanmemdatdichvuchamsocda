@@ -1,0 +1,39 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class PaymentService {
+    private Map<String, Double> servicePrices = new HashMap<>();
+    private Map<String, String> transactions = new HashMap<>();
+
+    public PaymentService() {
+        // Khởi tạo bảng giá dịch vụ
+        servicePrices.put("BASIC", 100.0);
+        servicePrices.put("PREMIUM", 200.0);
+    }
+
+    public String processPayment(String userId, String serviceType) {
+        if (!servicePrices.containsKey(serviceType)) {
+            return "Dịch vụ không tồn tại.";
+        }
+        double amount = servicePrices.get(serviceType);
+        String transactionId = "TXN" + System.currentTimeMillis();
+        transactions.put(transactionId, userId);
+        return "Thanh toán thành công. Mã giao dịch: " + transactionId;
+    }
+
+    public String cancelService(String transactionId) {
+        if (!transactions.containsKey(transactionId)) {
+            return "Giao dịch không tồn tại.";
+        }
+        transactions.remove(transactionId);
+        return "Hủy dịch vụ thành công. Hoàn tiền nếu đủ điều kiện.";
+    }
+
+    public void updateServicePrice(String serviceType, double newPrice) {
+        servicePrices.put(serviceType, newPrice);
+    }
+
+    public double getServicePrice(String serviceType) {
+        return servicePrices.getOrDefault(serviceType, 0.0);
+    }
+}
