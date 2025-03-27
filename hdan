@@ -1,0 +1,95 @@
+import java.time.LocalDateTime;
+import java.util.*;
+
+class Appointment {
+    private static int idCounter = 1;
+    private int id;
+    private String customerName;
+    private String service;
+    private String specialist;
+    private LocalDateTime appointmentTime;
+    private String status;
+
+    public Appointment(String customerName, String service, String specialist, LocalDateTime appointmentTime) {
+        this.id = idCounter++;
+        this.customerName = customerName;
+        this.service = service;
+        this.specialist = specialist;
+        this.appointmentTime = appointmentTime;
+        this.status = "Scheduled";
+    }
+
+    public int getId() { return id; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public String getDetails() {
+        return "Appointment ID: " + id + ", Customer: " + customerName + ", Service: " + service +
+                ", Specialist: " + specialist + ", Time: " + appointmentTime + ", Status: " + status;
+    }
+}
+
+class AppointmentManager {
+    private List<Appointment> appointments = new ArrayList<>();
+
+    public void bookAppointment(String customerName, String service, String specialist, LocalDateTime time) {
+        appointments.add(new Appointment(customerName, service, specialist, time));
+        System.out.println("Appointment booked successfully!");
+    }
+
+    public void checkIn(int id) {
+        for (Appointment appt : appointments) {
+            if (appt.getId() == id) {
+                appt.setStatus("Checked-in");
+                System.out.println("Customer checked in successfully!");
+                return;
+            }
+        }
+        System.out.println("Appointment not found!");
+    }
+
+    public void completeService(int id) {
+        for (Appointment appt : appointments) {
+            if (appt.getId() == id) {
+                appt.setStatus("Completed");
+                System.out.println("Service completed!");
+                return;
+            }
+        }
+        System.out.println("Appointment not found!");
+    }
+
+    public void checkOut(int id) {
+        for (Appointment appt : appointments) {
+            if (appt.getId() == id) {
+                appt.setStatus("Checked-out");
+                System.out.println("Customer checked out successfully!");
+                return;
+            }
+        }
+        System.out.println("Appointment not found!");
+    }
+
+    public void viewAppointments() {
+        for (Appointment appt : appointments) {
+            System.out.println(appt.getDetails());
+        }
+    }
+}
+
+public class SchedulingSystem {
+    public static void main(String[] args) {
+        AppointmentManager manager = new AppointmentManager();
+        manager.bookAppointment("Alice", "Haircut", "John", LocalDateTime.now().plusDays(1));
+        manager.bookAppointment("Bob", "Massage", "Emma", LocalDateTime.now().plusDays(2));
+        
+        System.out.println("\n--- Appointments ---");
+        manager.viewAppointments();
+        
+        manager.checkIn(1);
+        manager.completeService(1);
+        manager.checkOut(1);
+        
+        System.out.println("\n--- Updated Appointments ---");
+        manager.viewAppointments();
+    }
+}
