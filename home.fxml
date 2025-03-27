@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
+    <children>
+        <Label text="Chào mừng đến với Trung tâm của chúng tôi!" />
+        <HBox>
+            <children>
+                <Button text="Dịch vụ" />
+                <Button text="Chuyên viên" />
+                <Button text="Blog" />
+            </children>
+        </HBox>
+        <Label text="Nội dung trang chủ..." />
+    </children>
+</VBox>
